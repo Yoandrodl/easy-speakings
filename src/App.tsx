@@ -1,28 +1,33 @@
 import { useState } from 'react';
-import { BookOpen, Mic, Users, Shield, PlayCircle } from 'lucide-react';
+import { BookOpen, Mic, Users, Shield } from 'lucide-react';
 import LearnTab from './components/LearnTab';
 import PracticeTab from './components/PracticeTab';
-import VideoTab from './components/VideoTab';
 import OfflineTab from './components/OfflineTab';
 import PrivacyPolicy from './components/PrivacyPolicy';
 
 function App() {
   const [activeTab, setActiveTab] = useState('learn');
+  const [learnTabKey, setLearnTabKey] = useState(0);
+
+  const handleNavClick = (tabName: string) => {
+    if (tabName === 'learn' && activeTab === 'learn') {
+      setLearnTabKey(prev => prev + 1);
+    }
+    setActiveTab(tabName);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
       case 'learn':
-        return <LearnTab />;
+        return <LearnTab key={learnTabKey} />;
       case 'practice':
         return <PracticeTab />;
-      case 'video':
-        return <VideoTab />;
       case 'offline':
         return <OfflineTab />;
       case 'privacy':
         return <PrivacyPolicy />;
       default:
-        return <LearnTab />;
+        return <LearnTab key={learnTabKey} />;
     }
   };
 
@@ -37,35 +42,28 @@ function App() {
       <nav className="bottom-nav">
         <button 
           className={`nav-item ${activeTab === 'learn' ? 'active' : ''}`}
-          onClick={() => setActiveTab('learn')}
+          onClick={() => handleNavClick('learn')}
         >
           <BookOpen />
           <span>Learn</span>
         </button>
         <button 
           className={`nav-item ${activeTab === 'practice' ? 'active' : ''}`}
-          onClick={() => setActiveTab('practice')}
+          onClick={() => handleNavClick('practice')}
         >
           <Mic />
           <span>Practice</span>
         </button>
         <button 
-          className={`nav-item ${activeTab === 'video' ? 'active' : ''}`}
-          onClick={() => setActiveTab('video')}
-        >
-          <PlayCircle />
-          <span>Video</span>
-        </button>
-        <button 
           className={`nav-item ${activeTab === 'offline' ? 'active' : ''}`}
-          onClick={() => setActiveTab('offline')}
+          onClick={() => handleNavClick('offline')}
         >
           <Users />
           <span>Kelas</span>
         </button>
         <button 
           className={`nav-item ${activeTab === 'privacy' ? 'active' : ''}`}
-          onClick={() => setActiveTab('privacy')}
+          onClick={() => handleNavClick('privacy')}
         >
           <Shield />
           <span>Privacy</span>

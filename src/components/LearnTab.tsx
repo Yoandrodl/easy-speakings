@@ -36,8 +36,9 @@ const modules = [
         <p style={{ marginBottom: '12px' }}>Sebuah pidato yang baik memiliki struktur yang jelas:</p>
         <ol style={{ paddingLeft: '20px' }}>
           <li style={{ marginBottom: '8px' }}><strong>Hook:</strong> Awali dengan kutipan, pertanyaan, atau cerita mengejutkan.</li>
+          <li style={{ marginBottom: '8px' }}><strong>Perkenalan:</strong> Perkenalkan nama Anda, keahlian/profesi Anda, dan sebutkan kontrak waktu. (Misal: "Perkenalkan saya X, seorang praktisi Y, dan dalam 5 menit saya akan menjelaskan tentang Z").</li>
           <li style={{ marginBottom: '8px' }}><strong>Body:</strong> Sampaikan maksimal 3 poin utama.</li>
-          <li><strong>Call to Action:</strong> Tutup dengan ajakan bertindak.</li>
+          <li><strong>Call to Action:</strong> Tutup dengan ajakan bertindak yang jelas.</li>
         </ol>
       </>
     )
@@ -130,6 +131,39 @@ export default function LearnTab() {
               </div>
               <h3 style={{ fontSize: '0.95rem', color: '#1e293b', margin: '0 0 6px 0' }}>{mod.title}</h3>
               <p style={{ fontSize: '0.75rem', color: '#64748b', margin: 0 }}>{mod.description}</p>
+            </div>
+          ))}
+        </div>
+        </div>
+      </div>
+      
+      <div className="card" style={{ padding: '24px 0', marginTop: '16px', overflow: 'hidden' }}>
+        <h3 style={{ padding: '0 24px', marginBottom: '16px', fontSize: '1.1rem' }}>Video Pembelajaran</h3>
+        <div style={{ display: 'flex', overflowX: 'auto', gap: '16px', padding: '0 24px', paddingBottom: '16px', scrollSnapType: 'x mandatory' }}>
+          {[
+            { id: '3uZfhHMEj2w', title: 'Materi Pembelajaran 1' },
+            { id: 'UDh5OVaNCZ4', title: 'Materi Pembelajaran 2' },
+            { id: 'e-fqbBg-XRI', title: 'Materi Pembelajaran 3' },
+            { id: 'LiKTDfgl3Dw', title: 'Materi Pembelajaran 4' },
+            { id: 'ypu3x6Vvc-A', title: 'Materi Pembelajaran 5' },
+            { id: 'hS9VVq8-fnc', title: 'Materi Pembelajaran 6' },
+            { id: 'v-2ov9GfPDk', title: 'Materi Pembelajaran 7' },
+            { id: '6sGUz_TnoTM', title: 'Materi Pembelajaran 8' },
+          ].map((video, index) => (
+            <div key={index} style={{ minWidth: '280px', scrollSnapAlign: 'start', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+              <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%' }}>
+                <iframe 
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                  src={`https://www.youtube.com/embed/${video.id}?rel=0`} 
+                  title={video.title} 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <PlayCircle size={18} color="#3b82f6" />
+                <h4 style={{ fontSize: '0.9rem', color: '#1e293b', margin: 0 }}>{video.title}</h4>
+              </div>
             </div>
           ))}
         </div>
