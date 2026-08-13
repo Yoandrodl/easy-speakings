@@ -7,28 +7,62 @@ const modules = [
     title: "Atasi Gugup",
     description: "Teknik & Mindset",
     icon: <Target size={24} />,
-    content: "Rasa gugup adalah reaksi alami tubuh saat menghadapi audiens. Untuk mengatasinya, tarik napas dalam-dalam melalui hidung selama 4 detik, tahan 4 detik, dan hembuskan perlahan melalui mulut selama 4 detik. Lakukan ini 3 kali sebelum naik panggung."
+    content: (
+      <>
+        <p style={{ marginBottom: '8px' }}>Rasa gugup adalah reaksi alami tubuh saat menghadapi audiens. Untuk mengatasinya:</p>
+        <ul style={{ paddingLeft: '20px' }}>
+          <li>Tarik napas melalui hidung <strong>4 detik</strong></li>
+          <li>Tahan selama <strong>4 detik</strong></li>
+          <li>Hembuskan perlahan selama <strong>4 detik</strong></li>
+        </ul>
+        <p style={{ marginTop: '8px' }}>Lakukan 3 kali sebelum tampil.</p>
+      </>
+    )
   },
   {
     id: 2,
     title: "Struktur Pidato",
     description: "Hook, Body, CTA",
     icon: <Star size={24} />,
-    content: "Sebuah pidato yang baik memiliki struktur yang jelas. 1) Hook: Awali dengan kutipan, pertanyaan, atau cerita mengejutkan. 2) Body: Sampaikan maksimal 3 poin utama. 3) Call to Action: Tutup dengan ajakan bertindak."
+    content: (
+      <>
+        <p style={{ marginBottom: '12px' }}>Sebuah pidato yang baik memiliki struktur yang jelas:</p>
+        <ol style={{ paddingLeft: '20px' }}>
+          <li style={{ marginBottom: '8px' }}><strong>Hook:</strong> Awali dengan kutipan, pertanyaan, atau cerita mengejutkan.</li>
+          <li style={{ marginBottom: '8px' }}><strong>Body:</strong> Sampaikan maksimal 3 poin utama.</li>
+          <li><strong>Call to Action:</strong> Tutup dengan ajakan bertindak.</li>
+        </ol>
+      </>
+    )
   },
   {
     id: 3,
     title: "Body Language",
     description: "Gestur & Kontak Mata",
     icon: <PlayCircle size={24} />,
-    content: "Tubuh Anda berbicara lebih keras daripada kata-kata. Berdirilah tegak, buka bahu Anda. Gunakan tangan Anda untuk menekankan poin. Bagi audiens menjadi 3 zona dan tatap satu orang di setiap zona secara bergantian."
+    content: (
+      <>
+        <p style={{ marginBottom: '12px' }}>Tubuh Anda berbicara lebih keras daripada kata-kata:</p>
+        <ul style={{ paddingLeft: '20px' }}>
+          <li style={{ marginBottom: '8px' }}>Berdirilah tegak, buka bahu Anda.</li>
+          <li style={{ marginBottom: '8px' }}>Gunakan tangan untuk menekankan poin.</li>
+          <li>Bagi audiens menjadi 3 zona dan tatap secara bergantian.</li>
+        </ul>
+      </>
+    )
   },
   {
     id: 4,
     title: "Filler Words",
     description: "Hindari 'Eee'",
     icon: <MessageSquare size={24} />,
-    content: "Kata pengisi seperti 'eee' muncul karena otak berpikir lebih lambat dari mulut berbicara. Solusinya? JEDA. Lebih baik diam 2-3 detik saat berpikir daripada mengisinya dengan 'eee'."
+    content: (
+      <>
+        <p style={{ marginBottom: '12px' }}>Kata pengisi seperti 'eee' muncul karena otak berpikir lebih lambat dari mulut berbicara.</p>
+        <p style={{ marginBottom: '8px', color: '#3b82f6', fontWeight: 600 }}>Solusinya? JEDA.</p>
+        <p>Lebih baik diam 2-3 detik saat berpikir daripada mengisinya dengan 'eee'.</p>
+      </>
+    )
   }
 ];
 
@@ -60,9 +94,9 @@ export default function LearnTab() {
           </div>
           
           <h3 style={{ marginBottom: '16px', color: '#1e293b', textAlign: 'center' }}>Materi Lengkap</h3>
-          <p style={{ lineHeight: '1.8', fontSize: '0.95rem', color: '#64748b' }}>
+          <div style={{ lineHeight: '1.6', fontSize: '0.95rem', color: '#64748b', textAlign: 'left' }}>
             {mod?.content}
-          </p>
+          </div>
           
           <div style={{ marginTop: '30px', padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
             <h4 style={{ color: '#3b82f6', marginBottom: '8px', fontSize: '0.9rem' }}>Tantangan:</h4>
