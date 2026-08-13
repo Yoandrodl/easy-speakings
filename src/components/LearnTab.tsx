@@ -134,7 +134,6 @@ export default function LearnTab() {
             </div>
           ))}
         </div>
-        </div>
       </div>
       
       <div className="card" style={{ padding: '24px 0', marginTop: '16px', overflow: 'hidden' }}>
