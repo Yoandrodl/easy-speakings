@@ -6,7 +6,7 @@ import ProTab from './components/ProTab';
 import PrivacyPolicy from './components/PrivacyPolicy';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('learn'); // 'learn', 'practice', 'pro', 'privacy'
+  const [activeTab, setActiveTab] = useState('learn');
 
   const renderContent = () => {
     switch (activeTab) {
@@ -25,11 +25,13 @@ function App() {
 
   return (
     <>
+      <div className="header-curve"></div>
+      
       <div className="content-area animate-fade-in">
         {renderContent()}
       </div>
 
-      <nav className="bottom-nav glass-nav">
+      <nav className="bottom-nav">
         <button 
           className={`nav-item ${activeTab === 'learn' ? 'active' : ''}`}
           onClick={() => setActiveTab('learn')}

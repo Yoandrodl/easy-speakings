@@ -1,35 +1,33 @@
 export default function PrivacyPolicy() {
   return (
-    <div className="animate-fade-in">
-      <h1 style={{ marginBottom: '24px', fontSize: '1.5rem' }}>Privacy Policy</h1>
+    <div className="page-container animate-fade-in" style={{ paddingTop: '40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '30px', color: 'white' }}>
+        <h1 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>Privacy Policy</h1>
+        <p style={{ opacity: 0.8, fontSize: '0.85rem' }}>Kebijakan Privasi Pengguna</p>
+      </div>
       
-      <div className="glass" style={{ padding: '24px', fontSize: '0.9rem', color: '#cbd5e1' }}>
-        <p style={{ marginBottom: '16px' }}><strong>Last updated: August 2026</strong></p>
+      <div className="card" style={{ padding: '24px', fontSize: '0.9rem', color: '#64748b' }}>
+        <p style={{ marginBottom: '16px' }}><strong>Terakhir diperbarui: Agustus 2026</strong></p>
         
-        <h3 style={{ color: '#fff', marginBottom: '8px' }}>1. Introduction</h3>
+        <h3 style={{ color: '#1e293b', marginBottom: '8px', fontSize: '1rem' }}>1. Pendahuluan</h3>
         <p style={{ marginBottom: '16px' }}>
-          Welcome to the Public Speaking Mastery App. We respect your privacy and are committed to protecting your personal data.
+          Selamat datang di Aplikasi Public Speaking Mastery. Kami menghargai privasi Anda dan berkomitmen untuk melindungi data pribadi Anda.
         </p>
 
-        <h3 style={{ color: '#fff', marginBottom: '8px' }}>2. Camera and Microphone Access</h3>
+        <h3 style={{ color: '#1e293b', marginBottom: '8px', fontSize: '1rem' }}>2. Akses Kamera & Mikrofon</h3>
         <p style={{ marginBottom: '16px' }}>
-          Our app's "Practice" feature requires access to your device's camera and microphone to function as a teleprompter and filler word tracker. 
-          <strong> We do NOT record, save, or upload your video/audio to our servers.</strong> All speech recognition and video processing happens locally on your device.
+          Fitur "Practice" di aplikasi kami membutuhkan akses ke kamera dan mikrofon perangkat Anda untuk berfungsi sebagai teleprompter dan pendeteksi *filler word*. 
+          <strong style={{ color: '#1e293b' }}> Kami TIDAK merekam, menyimpan, atau mengunggah video/audio Anda ke server kami.</strong> Semua pemrosesan suara dan video terjadi secara lokal di perangkat Anda.
         </p>
 
-        <h3 style={{ color: '#fff', marginBottom: '8px' }}>3. Data Collection</h3>
+        <h3 style={{ color: '#1e293b', marginBottom: '8px', fontSize: '1rem' }}>3. Pengumpulan Data</h3>
         <p style={{ marginBottom: '16px' }}>
-          We do not collect any personally identifiable information unless you explicitly provide it (e.g., by contacting our WhatsApp admin). We may use anonymous analytics to improve the app experience.
+          Kami tidak mengumpulkan informasi pengenal pribadi apa pun kecuali jika Anda secara sukarela memberikannya (misalnya dengan menghubungi admin WhatsApp kami).
         </p>
 
-        <h3 style={{ color: '#fff', marginBottom: '8px' }}>4. Changes to this Policy</h3>
+        <h3 style={{ color: '#1e293b', marginBottom: '8px', fontSize: '1rem' }}>4. Perubahan Kebijakan</h3>
         <p style={{ marginBottom: '16px' }}>
-          We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes.
-        </p>
-
-        <h3 style={{ color: '#fff', marginBottom: '8px' }}>5. Contact Us</h3>
-        <p>
-          If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.
+          Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Oleh karena itu, Anda disarankan untuk meninjau halaman ini secara berkala.
         </p>
       </div>
     </div>

@@ -89,12 +89,15 @@ export default function PracticeTab() {
   };
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <h2 style={{ marginBottom: '16px' }}>Practice: Teleprompter & AI</h2>
+    <div className="page-container animate-fade-in" style={{ display: 'flex', flexDirection: 'column', height: '100%', paddingTop: '40px' }}>
+      <div style={{ color: 'white', marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '1.5rem', margin: 0 }}>Area Latihan</h2>
+        <p style={{ opacity: 0.8, fontSize: '0.85rem' }}>Teleprompter & AI Assistant</p>
+      </div>
       
       {!isRecording ? (
-        <div className="glass" style={{ padding: '16px', marginBottom: '20px', flex: 1 }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#94a3b8' }}>
+        <div className="card" style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>
             Ketik Naskah Pidato Anda di Sini:
           </label>
           <textarea 
@@ -102,28 +105,31 @@ export default function PracticeTab() {
             onChange={(e) => setText(e.target.value)}
             style={{ 
               width: '100%', 
-              height: '200px', 
-              background: 'rgba(0,0,0,0.2)', 
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '8px',
-              padding: '12px',
-              color: 'white',
+              flex: 1, 
+              background: '#f8fafc', 
+              border: '1px solid #e2e8f0',
+              borderRadius: '12px',
+              padding: '16px',
+              color: '#1e293b',
               fontFamily: 'inherit',
-              resize: 'none'
+              resize: 'none',
+              marginBottom: '20px',
+              fontSize: '1rem',
+              lineHeight: '1.6'
             }}
           />
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <button className="btn-primary" onClick={handleStart} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <button className="btn-primary" onClick={handleStart} style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
               <Play size={18} /> Mulai Latihan
             </button>
           </div>
         </div>
       ) : (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', margin: '-10px', marginTop: '0' }}>
           {/* Camera View */}
           <div style={{ 
             position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, 
-            borderRadius: '16px', overflow: 'hidden', background: '#000', zIndex: 1 
+            borderRadius: '20px', overflow: 'hidden', background: '#000', zIndex: 1 
           }}>
             <video 
               ref={videoRef} 
@@ -132,7 +138,7 @@ export default function PracticeTab() {
               muted 
               style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }} 
             />
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)' }}></div>
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }}></div>
           </div>
 
           {/* Teleprompter Text overlay */}
@@ -142,32 +148,33 @@ export default function PracticeTab() {
             textAlign: 'center'
           }}>
             <p style={{ 
-              fontSize: '1.5rem', 
+              fontSize: '1.8rem', 
               fontWeight: 600, 
               color: 'white', 
-              textShadow: '0 2px 10px rgba(0,0,0,0.8)' 
+              textShadow: '0 2px 10px rgba(0,0,0,0.8)',
+              lineHeight: '1.4'
             }}>
               {text}
             </p>
           </div>
 
           {/* Controls overlay */}
-          <div style={{ position: 'relative', zIndex: 2, padding: '16px', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(10px)', borderTopLeftRadius: '16px', borderTopRightRadius: '16px' }}>
+          <div style={{ position: 'relative', zIndex: 2, padding: '20px', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', boxShadow: '0 -10px 30px rgba(0,0,0,0.1)' }}>
              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#ef4444' }}>
-                   <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1.5s infinite' }}></div>
-                   <span style={{ fontSize: '0.85rem' }}>Merekam...</span>
+                   <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1.5s infinite' }}></div>
+                   <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Merekam</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#f59e0b', fontSize: '0.9rem', fontWeight: 600 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#f59e0b', fontSize: '0.9rem', fontWeight: 600, background: '#fef3c7', padding: '6px 12px', borderRadius: '20px' }}>
                   <Activity size={16} /> Filler: {fillerCount}x
                 </div>
-                <button onClick={handleStop} style={{ background: '#ef4444', color: 'white', padding: '8px 16px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button onClick={handleStop} style={{ background: '#1e293b', color: 'white', padding: '10px 20px', borderRadius: '99px', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
                   <Square size={16} /> Stop
                 </button>
              </div>
              {transcript && (
-               <div style={{ marginTop: '12px', fontSize: '0.8rem', color: '#94a3b8', fontStyle: 'italic', maxHeight: '40px', overflow: 'hidden' }}>
-                 Terdengar: "{transcript}"
+               <div style={{ marginTop: '16px', fontSize: '0.85rem', color: '#64748b', fontStyle: 'italic', maxHeight: '40px', overflow: 'hidden', textAlign: 'center' }}>
+                 "{transcript}"
                </div>
              )}
           </div>
