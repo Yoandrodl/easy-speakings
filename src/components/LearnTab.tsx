@@ -13,6 +13,7 @@ const modules = [
     description: "Teknik & Mindset",
     icon: <Target size={24} />,
     image: mascotGugup,
+    videoId: "WlZttLh6rKo", // Placeholder video ID
     content: (
       <>
         <p style={{ marginBottom: '8px' }}>Rasa gugup adalah reaksi alami tubuh saat menghadapi audiens. Untuk mengatasinya:</p>
@@ -31,6 +32,7 @@ const modules = [
     description: "Hook, Body, CTA",
     icon: <Star size={24} />,
     image: mascotStruktur,
+    videoId: "i5mYphUoOCs", // Placeholder video ID
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Sebuah pidato yang baik memiliki struktur yang jelas:</p>
@@ -48,6 +50,7 @@ const modules = [
     description: "Gestur & Kontak Mata",
     icon: <PlayCircle size={24} />,
     image: mascotBody,
+    videoId: "tShavGuo0_E", // Placeholder video ID
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Tubuh Anda berbicara lebih keras daripada kata-kata:</p>
@@ -65,6 +68,7 @@ const modules = [
     description: "Hindari 'Eee'",
     icon: <MessageSquare size={24} />,
     image: mascotFiller,
+    videoId: "Zxw2P0Wq7C0", // Placeholder video ID
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Kata pengisi seperti 'eee' muncul karena otak berpikir lebih lambat dari mulut berbicara.</p>
@@ -93,9 +97,23 @@ export default function LearnTab() {
         </div>
         
         <div className="card" style={{ marginTop: '40px', padding: '24px', paddingTop: '40px', position: 'relative' }}>
-          <div style={{ textAlign: 'center', marginTop: '-70px', marginBottom: '16px' }}>
+          <div style={{ textAlign: 'center', marginTop: '-70px', marginBottom: '24px' }}>
             <img src={mod?.image} alt={mod?.title} style={{ width: '130px', height: '130px', borderRadius: '50%', border: '4px solid white', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', objectFit: 'cover' }} />
           </div>
+
+          {mod?.videoId && (
+            <div style={{ marginBottom: '24px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+              <iframe 
+                width="100%" 
+                height="215" 
+                src={`https://www.youtube.com/embed/${mod.videoId}?rel=0`} 
+                title="Video Pembelajaran" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          )}
           
           <h3 style={{ marginBottom: '16px', color: '#1e293b', textAlign: 'center' }}>Materi Lengkap</h3>
           <div style={{ lineHeight: '1.6', fontSize: '0.95rem', color: '#64748b', textAlign: 'left' }}>
@@ -121,17 +139,15 @@ export default function LearnTab() {
       <div className="card" style={{ padding: '24px 0', marginTop: '20px' }}>
         <h3 style={{ padding: '0 24px', marginBottom: '16px', fontSize: '1.1rem' }}>Materi Dasar</h3>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '0 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', padding: '0 24px' }}>
           {modules.map((mod) => (
             <div key={mod.id} onClick={() => setSelectedModule(mod.id)} 
-                 style={{ display: 'flex', alignItems: 'center', background: '#f8fafc', padding: '16px', borderRadius: '16px', border: '1px solid #e2e8f0', cursor: 'pointer' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '16px', flexShrink: 0 }}>
+                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#f8fafc', padding: '20px 12px', borderRadius: '16px', border: '1px solid #e2e8f0', cursor: 'pointer', textAlign: 'center' }}>
+              <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
                 {mod.icon}
               </div>
-              <div>
-                <h3 style={{ fontSize: '0.95rem', color: '#1e293b', margin: '0 0 4px 0' }}>{mod.title}</h3>
-                <p style={{ fontSize: '0.8rem', color: '#64748b', margin: 0 }}>{mod.description}</p>
-              </div>
+              <h3 style={{ fontSize: '0.95rem', color: '#1e293b', margin: '0 0 6px 0' }}>{mod.title}</h3>
+              <p style={{ fontSize: '0.75rem', color: '#64748b', margin: 0 }}>{mod.description}</p>
             </div>
           ))}
         </div>
