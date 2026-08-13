@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Play, Square, RefreshCcw, Activity } from 'lucide-react';
+import { Play, Square, Activity } from 'lucide-react';
 
 export default function PracticeTab() {
   const [isRecording, setIsRecording] = useState(false);
