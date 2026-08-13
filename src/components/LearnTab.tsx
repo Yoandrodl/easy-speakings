@@ -13,7 +13,6 @@ const modules = [
     description: "Teknik & Mindset",
     icon: <Target size={24} />,
     image: mascotGugup,
-    videoId: "WlZttLh6rKo", // Placeholder video ID
     content: (
       <>
         <p style={{ marginBottom: '8px' }}>Rasa gugup adalah reaksi alami tubuh saat menghadapi audiens. Untuk mengatasinya:</p>
@@ -32,7 +31,6 @@ const modules = [
     description: "Hook, Body, CTA",
     icon: <Star size={24} />,
     image: mascotStruktur,
-    videoId: "i5mYphUoOCs", // Placeholder video ID
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Sebuah pidato yang baik memiliki struktur yang jelas:</p>
@@ -50,7 +48,6 @@ const modules = [
     description: "Gestur & Kontak Mata",
     icon: <PlayCircle size={24} />,
     image: mascotBody,
-    videoId: "tShavGuo0_E", // Placeholder video ID
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Tubuh Anda berbicara lebih keras daripada kata-kata:</p>
@@ -68,7 +65,6 @@ const modules = [
     description: "Hindari 'Eee'",
     icon: <MessageSquare size={24} />,
     image: mascotFiller,
-    videoId: "Zxw2P0Wq7C0", // Placeholder video ID
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Kata pengisi seperti 'eee' muncul karena otak berpikir lebih lambat dari mulut berbicara.</p>
@@ -97,23 +93,9 @@ export default function LearnTab() {
         </div>
         
         <div className="card" style={{ marginTop: '40px', padding: '24px', paddingTop: '40px', position: 'relative' }}>
-          <div style={{ textAlign: 'center', marginTop: '-70px', marginBottom: '24px' }}>
+          <div style={{ textAlign: 'center', marginTop: '-70px', marginBottom: '16px' }}>
             <img src={mod?.image} alt={mod?.title} style={{ width: '130px', height: '130px', borderRadius: '50%', border: '4px solid white', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', objectFit: 'cover' }} />
           </div>
-
-          {mod?.videoId && (
-            <div style={{ marginBottom: '24px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-              <iframe 
-                width="100%" 
-                height="215" 
-                src={`https://www.youtube.com/embed/${mod.videoId}?rel=0`} 
-                title="Video Pembelajaran" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-              ></iframe>
-            </div>
-          )}
           
           <h3 style={{ marginBottom: '16px', color: '#1e293b', textAlign: 'center' }}>Materi Lengkap</h3>
           <div style={{ lineHeight: '1.6', fontSize: '0.95rem', color: '#64748b', textAlign: 'left' }}>

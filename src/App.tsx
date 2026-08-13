@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { BookOpen, Mic, Users, Shield } from 'lucide-react';
+import { BookOpen, Mic, Users, Shield, PlayCircle } from 'lucide-react';
 import LearnTab from './components/LearnTab';
 import PracticeTab from './components/PracticeTab';
+import VideoTab from './components/VideoTab';
 import OfflineTab from './components/OfflineTab';
 import PrivacyPolicy from './components/PrivacyPolicy';
 
@@ -14,6 +15,8 @@ function App() {
         return <LearnTab />;
       case 'practice':
         return <PracticeTab />;
+      case 'video':
+        return <VideoTab />;
       case 'offline':
         return <OfflineTab />;
       case 'privacy':
@@ -45,6 +48,13 @@ function App() {
         >
           <Mic />
           <span>Practice</span>
+        </button>
+        <button 
+          className={`nav-item ${activeTab === 'video' ? 'active' : ''}`}
+          onClick={() => setActiveTab('video')}
+        >
+          <PlayCircle />
+          <span>Video</span>
         </button>
         <button 
           className={`nav-item ${activeTab === 'offline' ? 'active' : ''}`}
