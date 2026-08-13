@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import { ChevronLeft, PlayCircle, Star, Target, MessageSquare } from 'lucide-react';
 
+import mascotGugup from '../assets/mascots/gugup.jpg';
+import mascotStruktur from '../assets/mascots/struktur.jpg';
+import mascotBody from '../assets/mascots/body.jpg';
+import mascotFiller from '../assets/mascots/filler.jpg';
+
 const modules = [
   {
     id: 1,
     title: "Atasi Gugup",
     description: "Teknik & Mindset",
     icon: <Target size={24} />,
+    image: mascotGugup,
     content: (
       <>
         <p style={{ marginBottom: '8px' }}>Rasa gugup adalah reaksi alami tubuh saat menghadapi audiens. Untuk mengatasinya:</p>
@@ -24,6 +30,7 @@ const modules = [
     title: "Struktur Pidato",
     description: "Hook, Body, CTA",
     icon: <Star size={24} />,
+    image: mascotStruktur,
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Sebuah pidato yang baik memiliki struktur yang jelas:</p>
@@ -40,6 +47,7 @@ const modules = [
     title: "Body Language",
     description: "Gestur & Kontak Mata",
     icon: <PlayCircle size={24} />,
+    image: mascotBody,
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Tubuh Anda berbicara lebih keras daripada kata-kata:</p>
@@ -56,6 +64,7 @@ const modules = [
     title: "Filler Words",
     description: "Hindari 'Eee'",
     icon: <MessageSquare size={24} />,
+    image: mascotFiller,
     content: (
       <>
         <p style={{ marginBottom: '12px' }}>Kata pengisi seperti 'eee' muncul karena otak berpikir lebih lambat dari mulut berbicara.</p>
@@ -84,13 +93,8 @@ export default function LearnTab() {
         </div>
         
         <div className="card" style={{ marginTop: '40px', padding: '24px', paddingTop: '40px', position: 'relative' }}>
-          <div style={{ 
-            position: 'absolute', top: '-32px', left: '50%', transform: 'translateX(-50%)',
-            width: '64px', height: '64px', borderRadius: '50%', background: '#eff6ff', 
-            display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3b82f6',
-            boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
-          }}>
-            {mod?.icon}
+          <div style={{ textAlign: 'center', marginTop: '-70px', marginBottom: '16px' }}>
+            <img src={mod?.image} alt={mod?.title} style={{ width: '130px', height: '130px', borderRadius: '50%', border: '4px solid white', boxShadow: '0 4px 15px rgba(0,0,0,0.1)', objectFit: 'cover' }} />
           </div>
           
           <h3 style={{ marginBottom: '16px', color: '#1e293b', textAlign: 'center' }}>Materi Lengkap</h3>
