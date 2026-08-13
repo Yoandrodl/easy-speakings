@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, PlayCircle, Star, Target, MessageSquare } from 'lucide-react';
 
 import mascotGugup from '../assets/mascots/gugup.jpg';
@@ -118,6 +118,23 @@ const modules = [
 
 export default function LearnTab() {
   const [selectedModule, setSelectedModule] = useState<number | null>(null);
+  const [completedModules, setCompletedModules] = useState<number[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('easy_speaking_progress');
+    if (saved) {
+      setCompletedModules(JSON.parse(saved));
+    }
+  }, []);
+
+  const handleModuleClick = (id: number) => {
+    setSelectedModule(id);
+    if (!completedModules.includes(id)) {
+      const newCompleted = [...completedModules, id];
+      setCompletedModules(newCompleted);
+      localStorage.setItem('easy_speaking_progress', JSON.stringify(newCompleted));
+    }
+  };
 
   if (selectedModule !== null) {
     const mod = modules.find(m => m.id === selectedModule);
@@ -164,8 +181,11 @@ export default function LearnTab() {
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', padding: '0 24px' }}>
           {modules.map((mod) => (
-            <div key={mod.id} onClick={() => setSelectedModule(mod.id)} 
-                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#f8fafc', padding: '20px 12px', borderRadius: '16px', border: '1px solid #e2e8f0', cursor: 'pointer', textAlign: 'center' }}>
+            <div key={mod.id} onClick={() => handleModuleClick(mod.id)} 
+                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#f8fafc', padding: '20px 12px', borderRadius: '16px', border: '1px solid #e2e8f0', cursor: 'pointer', textAlign: 'center', position: 'relative' }}>
+              {completedModules.includes(mod.id) && (
+                <div style={{ position: 'absolute', top: '8px', right: '8px', width: '12px', height: '12px', borderRadius: '50%', background: '#22c55e' }}></div>
+              )}
               <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
                 {mod.icon}
               </div>
@@ -180,10 +200,10 @@ export default function LearnTab() {
          <h3 style={{ marginBottom: '12px', fontSize: '1.1rem' }}>Progres Belajar</h3>
          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '8px', color: '#64748b' }}>
            <span>Terselesaikan</span>
-           <span style={{ color: '#3b82f6', fontWeight: 600 }}>0 / {modules.length}</span>
+           <span style={{ color: '#3b82f6', fontWeight: 600 }}>{completedModules.length} / {modules.length}</span>
          </div>
          <div style={{ width: '100%', height: '8px', background: '#e2e8f0', borderRadius: '99px', overflow: 'hidden' }}>
-           <div style={{ width: '10%', height: '100%', background: '#3b82f6', borderRadius: '99px' }}></div>
+           <div style={{ width: `${(completedModules.length / modules.length) * 100}%`, height: '100%', background: '#3b82f6', borderRadius: '99px', transition: 'width 0.5s ease-in-out' }}></div>
          </div>
       </div>
     </div>
