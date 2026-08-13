@@ -40,9 +40,9 @@ export default function PracticeTab() {
         setTranscript(currentTranscript);
 
         // Detect filler words
-        const words = currentTranscript.toLowerCase().split(' ');
-        const fillers = ['eee', 'umm', 'e', 'anu', 'hmm'];
-        const count = words.filter(word => fillers.some(f => word.includes(f))).length;
+        const words = currentTranscript.toLowerCase().trim().split(/\s+/);
+        const fillers = ['eee', 'umm', 'eh', 'anu', 'hmm', 'em'];
+        const count = words.filter(word => fillers.includes(word)).length;
         if (count > 0 && event.results[event.results.length - 1].isFinal) {
            setFillerCount(prev => prev + count);
         }
