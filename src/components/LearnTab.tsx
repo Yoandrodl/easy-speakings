@@ -121,14 +121,17 @@ export default function LearnTab() {
       <div className="card" style={{ padding: '24px 0', marginTop: '20px' }}>
         <h3 style={{ padding: '0 24px', marginBottom: '16px', fontSize: '1.1rem' }}>Materi Dasar</h3>
         
-        <div className="horizontal-scroll">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '0 24px' }}>
           {modules.map((mod) => (
-            <div key={mod.id} className="module-card-v" onClick={() => setSelectedModule(mod.id)}>
-              <div className="module-icon">
+            <div key={mod.id} onClick={() => setSelectedModule(mod.id)} 
+                 style={{ display: 'flex', alignItems: 'center', background: '#f8fafc', padding: '16px', borderRadius: '16px', border: '1px solid #e2e8f0', cursor: 'pointer' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '16px', flexShrink: 0 }}>
                 {mod.icon}
               </div>
-              <h3 style={{ fontSize: '0.95rem', color: '#1e293b', marginBottom: '4px' }}>{mod.title}</h3>
-              <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{mod.description}</p>
+              <div>
+                <h3 style={{ fontSize: '0.95rem', color: '#1e293b', margin: '0 0 4px 0' }}>{mod.title}</h3>
+                <p style={{ fontSize: '0.8rem', color: '#64748b', margin: 0 }}>{mod.description}</p>
+              </div>
             </div>
           ))}
         </div>
