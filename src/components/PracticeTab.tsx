@@ -1,5 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { Play, Square, Activity } from 'lucide-react';
+import { Play, Square, Activity, Shuffle } from 'lucide-react';
+
+const randomSpeeches = [
+  "Halo semuanya. Hari ini saya ingin berbicara tentang pentingnya menjaga semangat pantang menyerah. Kegagalan bukanlah akhir, melainkan pelajaran berharga untuk bangkit lebih kuat.",
+  "Selamat pagi. Pendidikan adalah senjata paling ampuh yang bisa kita gunakan untuk mengubah dunia. Mari kita manfaatkan setiap kesempatan belajar yang ada.",
+  "Teman-teman, lingkungan kita sedang tidak baik-baik saja. Mulai dari hal kecil seperti mengurangi sampah plastik, kita bisa membuat perubahan besar bagi bumi.",
+  "Di era digital ini, teknologi berkembang sangat pesat. Namun ingat, teknologi adalah alat. Kitalah yang harus mengendalikannya, bukan sebaliknya.",
+  "Seorang pemimpin sejati bukan dia yang memiliki banyak pengikut, melainkan dia yang mampu menciptakan pemimpin-pemimpin baru di sekitarnya.",
+  "Waktu adalah aset yang tidak bisa dibeli atau diputar kembali. Mari kita kelola waktu dengan bijak agar setiap detik yang kita lalui menjadi bermakna.",
+  "Tidak ada kesuksesan besar yang diraih sendirian. Kerja sama tim adalah kunci. Mari kita turunkan ego dan bersinergi untuk mencapai tujuan bersama.",
+  "Seringkali kita terlalu fokus pada apa yang belum kita miliki, sampai lupa mensyukuri apa yang sudah ada. Rasa syukur adalah kunci kebahagiaan sejati.",
+  "Kesehatan fisik memang penting, tapi jangan pernah abaikan kesehatan mental. Beristirahatlah saat lelah, dan jangan ragu meminta bantuan jika merasa tertekan.",
+  "Kesuksesan tidak datang dari keajaiban semalam. Kesuksesan adalah hasil dari persiapan panjang, kerja keras, dan kemauan belajar dari setiap kegagalan."
+];
 
 export default function PracticeTab() {
   const [isRecording, setIsRecording] = useState(false);
@@ -92,14 +105,28 @@ export default function PracticeTab() {
     <div className="page-container animate-fade-in" style={{ display: 'flex', flexDirection: 'column', height: '100%', paddingTop: '40px' }}>
       <div style={{ color: 'white', marginBottom: '30px' }}>
         <h2 style={{ fontSize: '1.5rem', margin: 0 }}>Area Latihan</h2>
-        <p style={{ opacity: 0.8, fontSize: '0.85rem' }}>Teleprompter & AI Assistant</p>
+        <p style={{ opacity: 0.8, fontSize: '0.85rem', marginBottom: '12px' }}>Teleprompter & AI Assistant</p>
+        <p style={{ fontSize: '0.8rem', lineHeight: '1.5', background: 'rgba(255,255,255,0.1)', padding: '12px', borderRadius: '8px' }}>
+          <strong>Cara Kerja:</strong> Ketik atau pilih naskah acak, lalu klik Mulai. Kamera akan menyala dan naskah berjalan otomatis. AI akan mendengarkan suara Anda dan menghitung jika Anda memakai kata pengisi (filler) seperti "eee" atau "umm".
+        </p>
       </div>
       
       {!isRecording ? (
         <div className="card" style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>
-            Ketik Naskah Pidato Anda di Sini:
-          </label>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <label style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>
+              Naskah Anda:
+            </label>
+            <button 
+              onClick={() => {
+                const random = randomSpeeches[Math.floor(Math.random() * randomSpeeches.length)];
+                setText(random);
+              }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#3b82f6', background: '#eff6ff', padding: '6px 12px', borderRadius: '99px', fontWeight: 600 }}
+            >
+              <Shuffle size={14} /> Teks Acak
+            </button>
+          </div>
           <textarea 
             value={text}
             onChange={(e) => setText(e.target.value)}
