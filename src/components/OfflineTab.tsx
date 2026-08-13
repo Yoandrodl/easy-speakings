@@ -1,4 +1,4 @@
-import { MapPin, Users, Phone, ArrowRight, CheckCircle } from 'lucide-react';
+import { MapPin, Users, Phone, CheckCircle } from 'lucide-react';
 
 export default function OfflineTab() {
   const waNumber = "6285721070453";
