@@ -16,10 +16,12 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 function App() {
   const [activeTab, setActiveTab] = useState('learn');
   const [learnTabKey, setLearnTabKey] = useState(0);
+  const [selectedModule, setSelectedModule] = useState<number | null>(null);
 
   const handleNavClick = (tabName: string) => {
     if (tabName === 'learn' && activeTab === 'learn') {
       setLearnTabKey(prev => prev + 1);
+      setSelectedModule(null); // Also reset selected module
     }
     setActiveTab(tabName);
   };
@@ -27,7 +29,7 @@ function App() {
   const renderContent = () => {
     switch (activeTab) {
       case 'learn':
-        return <LearnTab key={learnTabKey} />;
+        return <LearnTab key={learnTabKey} selectedModule={selectedModule} setSelectedModule={setSelectedModule} />;
       case 'practice':
         return <PracticeTab />;
       case 'offline':
@@ -35,25 +37,29 @@ function App() {
       case 'privacy':
         return <PrivacyPolicy />;
       default:
-        return <LearnTab key={learnTabKey} />;
+        return <LearnTab key={learnTabKey} selectedModule={selectedModule} setSelectedModule={setSelectedModule} />;
     }
   };
+
+  const showTopIgLogo = activeTab === 'learn' && selectedModule === null;
 
   return (
     <>
       <div className="header-curve"></div>
       
-      <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 100 }}>
-        <a 
-          href="https://www.instagram.com/easy_speakings" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,255,255,0.25)', padding: '6px 12px', borderRadius: '20px', color: 'white', textDecoration: 'none', backdropFilter: 'blur(4px)', fontSize: '0.85rem', border: '1px solid rgba(255,255,255,0.3)', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}
-        >
-          <InstagramIcon size={16} />
-          <span style={{ fontWeight: 500 }}>easy_speakings</span>
-        </a>
-      </div>
+      {showTopIgLogo && (
+        <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 100 }}>
+          <a 
+            href="https://www.instagram.com/easy_speakings" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255,255,255,0.25)', padding: '6px 12px', borderRadius: '20px', color: 'white', textDecoration: 'none', backdropFilter: 'blur(4px)', fontSize: '0.85rem', border: '1px solid rgba(255,255,255,0.3)', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}
+          >
+            <InstagramIcon size={16} />
+            <span style={{ fontWeight: 500 }}>easy_speakings</span>
+          </a>
+        </div>
+      )}
       
       <div className="content-area animate-fade-in">
         {renderContent()}

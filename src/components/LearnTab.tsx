@@ -116,8 +116,12 @@ const modules = [
   }
 ];
 
-export default function LearnTab() {
-  const [selectedModule, setSelectedModule] = useState<number | null>(null);
+interface LearnTabProps {
+  selectedModule: number | null;
+  setSelectedModule: (id: number | null) => void;
+}
+
+export default function LearnTab({ selectedModule, setSelectedModule }: LearnTabProps) {
   const [completedModules, setCompletedModules] = useState<number[]>([]);
 
   useEffect(() => {
@@ -175,17 +179,17 @@ export default function LearnTab() {
               justifyContent: 'center',
               gap: '8px', 
               marginTop: '24px', 
-              backgroundColor: '#fdf2f8', 
+              background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', 
               padding: '12px', 
               borderRadius: '12px', 
-              color: '#db2777', 
+              color: 'white', 
               textDecoration: 'none', 
-              border: '1px solid #fbcfe8',
+              border: 'none',
               fontWeight: 600,
-              boxShadow: '0 2px 4px rgba(219,39,119,0.1)'
+              boxShadow: '0 4px 15px rgba(220, 39, 67, 0.2)'
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
