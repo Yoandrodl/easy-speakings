@@ -1,28 +1,51 @@
 import { useState, useRef, useEffect } from 'react';
-import { Play, Square, Activity, Shuffle } from 'lucide-react';
+import { Play, Square, Activity, Shuffle, Video, Mic2, ChevronLeft } from 'lucide-react';
+import { randomSpeeches } from '../data/speeches';
 
-const randomSpeeches = [
-  "Tahukah Anda bahwa 70% orang lebih takut berbicara di depan umum daripada kematian? Halo, perkenalkan saya Budi, seorang pelatih public speaking. Dalam 2 menit ke depan, saya akan membagikan 3 cara mengatasi gugup. Pertama, tarik napas dalam. Kedua, persiapkan materi dengan matang. Ketiga, anggap audiens sebagai teman. Mari mulai praktikkan 3 hal ini dari sekarang dan taklukkan panggung Anda!",
-  "'Pendidikan adalah senjata paling ampuh untuk mengubah dunia.' Selamat pagi, saya Siti, seorang praktisi pendidikan. Dalam 3 menit ini, saya akan membahas 2 alasan mengapa pendidikan usia dini sangat penting. Satu, membentuk karakter dasar anak. Dua, merangsang perkembangan kognitif secara optimal. Oleh karena itu, mari kita dukung program pendidikan usia dini di lingkungan kita mulai hari ini.",
-  "Pernahkah Anda membuang plastik sekecil sedotan dan berpikir itu tidak masalah? Perkenalkan, saya Andi, aktivis lingkungan. Hari ini, selama 2 menit, saya akan menyoroti 3 dampak buruk sampah plastik. Pertama, meracuni tanah. Kedua, membunuh biota laut. Ketiga, mencemari rantai makanan kita. Ayo, kurangi penggunaan plastik sekali pakai mulai dari diri kita sendiri!",
-  "Di era digital ini, apakah kita mengendalikan teknologi, atau teknologi yang mengendalikan kita? Halo, saya Dina, seorang peneliti media digital. Dalam presentasi singkat 3 menit ini, saya akan memaparkan 2 cara bijak bermedia sosial. Pertama, batasi waktu layar maksimal 2 jam sehari. Kedua, saring sebelum sharing. Mari kita ciptakan ruang digital yang sehat dan positif!",
-  "'Seorang pemimpin adalah dia yang tahu jalannya, melewati jalannya, dan menunjukkan jalannya.' Perkenalkan, saya Reza, konsultan kepemimpinan. Selama 2 menit ke depan, saya akan menjelaskan 3 kualitas pemimpin sejati. Satu, memiliki visi yang jelas. Dua, empati tinggi. Tiga, berani mengambil risiko. Mari kita kembangkan tiga sifat ini dan jadilah pemimpin yang menginspirasi di tempat kerja kita.",
-  "Pernahkah Anda merasa waktu 24 jam sehari tidak pernah cukup? Halo semuanya, saya Ayu, seorang pakar produktivitas. Dalam 3 menit ini, saya akan membagikan 3 teknik manajemen waktu. Pertama, buat to-do list harian. Kedua, gunakan teknik Pomodoro. Ketiga, hindari multitasking. Yuk, mulai terapkan teknik ini besok pagi dan rasakan bedanya!",
-  "Satu batang lidi mudah dipatahkan, tapi segenggam lidi sangatlah kuat. Perkenalkan, saya Doni, manajer HRD. Hari ini, dalam 2 menit, saya akan membahas pentingnya kerja sama tim melalui 2 poin utama. Pertama, sinergi menghasilkan ide yang lebih inovatif. Kedua, beban kerja menjadi lebih ringan. Mari kita turunkan ego pribadi dan mulai bekerja sama demi tujuan bersama perusahaan.",
-  "Kapan terakhir kali Anda benar-benar merasa bersyukur atas hal kecil? Selamat pagi, saya Maya, seorang psikolog klinis. Selama 3 menit ke depan, saya akan menjelaskan 3 manfaat rasa syukur bagi mental kita. Satu, mengurangi stres. Dua, meningkatkan kualitas tidur. Tiga, membuat hidup lebih bahagia. Saya mengajak Anda semua, malam ini sebelum tidur, tuliskan 3 hal yang Anda syukuri hari ini.",
-  "Kesehatan fisik sering dijaga, tapi bagaimana dengan kesehatan mental kita? Halo, saya dr. Rina. Dalam waktu 2 menit ini, saya akan memaparkan 2 cara menjaga kesehatan mental di tempat kerja. Pertama, tetapkan batasan waktu kerja yang jelas. Kedua, jangan ragu meminta bantuan profesional jika kewalahan. Ingat, tidak apa-apa untuk merasa tidak baik-baik saja. Mari kita saling peduli dan hilangkan stigma tentang kesehatan mental.",
-  "'Kesuksesan bukanlah kunci kebahagiaan. Kebahagiaanlah kunci kesuksesan.' Perkenalkan, saya Rio, seorang *life coach*. Dalam presentasi 3 menit ini, saya akan membagikan 3 rahasia hidup sukses dan bahagia. Pertama, cintai apa yang Anda kerjakan. Kedua, teruslah belajar hal baru. Ketiga, kelilingi diri Anda dengan orang positif. Mulailah mencintai pekerjaan Anda hari ini, dan lihatlah bagaimana kesuksesan akan mengikuti!"
-];
+type PracticeMode = 'menu' | 'filler' | 'teleprompter';
 
 export default function PracticeTab() {
+  const [mode, setMode] = useState<PracticeMode>('menu');
+  const [currentText, setCurrentText] = useState(randomSpeeches[0]);
+
+  // For both modes: video camera
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // For Filler Mode
   const [isRecording, setIsRecording] = useState(false);
-  const [text, setText] = useState("Halo semuanya, selamat datang. Hari ini saya ingin berbicara tentang pentingnya komunikasi yang baik.");
   const [fillerCount, setFillerCount] = useState(0);
   const [transcript, setTranscript] = useState("");
   const recognitionRef = useRef<any>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Initialize Speech Recognition
+  useEffect(() => {
+    // Start camera if we are in one of the active modes
+    if (mode === 'filler' || mode === 'teleprompter') {
+      startCamera();
+    } else {
+      stopCamera();
+    }
+  }, [mode]);
+
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (err) {
+      console.error("Error accessing camera:", err);
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+  };
+
+  // Speech Recognition (Only active for Filler Mode when isRecording is true)
   useEffect(() => {
     // @ts-ignore
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -39,7 +62,7 @@ export default function PracticeTab() {
         }
         setTranscript(currentTranscript);
 
-        // Detect filler words
+        // Detect filler words (exact match)
         const words = currentTranscript.toLowerCase().trim().split(/\s+/);
         const fillers = ['eee', 'umm', 'eh', 'anu', 'hmm', 'em'];
         const count = words.filter(word => fillers.includes(word)).length;
@@ -48,165 +71,150 @@ export default function PracticeTab() {
         }
       };
 
-      recognition.onerror = (event: any) => {
-        console.error("Speech recognition error", event.error);
+      recognition.onend = () => {
+         if (isRecording && mode === 'filler') {
+           recognition.start();
+         }
       };
 
       recognitionRef.current = recognition;
     }
+  }, [isRecording, mode]);
 
-    return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-      stopCamera();
-    };
-  }, []);
-
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
-    } catch (err) {
-      console.error("Error accessing camera: ", err);
+  const toggleRecording = () => {
+    if (isRecording) {
+      recognitionRef.current?.stop();
+      setIsRecording(false);
+    } else {
+      setFillerCount(0);
+      setTranscript("");
+      recognitionRef.current?.start();
+      setIsRecording(true);
     }
   };
 
-  const stopCamera = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const stream = videoRef.current.srcObject as MediaStream;
-      const tracks = stream.getTracks();
-      tracks.forEach(track => track.stop());
-      videoRef.current.srcObject = null;
-    }
+  const randomizeText = () => {
+    const randomIndex = Math.floor(Math.random() * randomSpeeches.length);
+    setCurrentText(randomSpeeches[randomIndex]);
   };
 
-  const handleStart = () => {
-    setIsRecording(true);
-    setFillerCount(0);
-    setTranscript("");
-    startCamera();
-    if (recognitionRef.current) {
-      try { recognitionRef.current.start(); } catch(e) {}
-    }
-  };
+  if (mode === 'menu') {
+    return (
+      <div className="page-container animate-fade-in" style={{ paddingTop: '50px' }}>
+        <div style={{ color: 'white', marginBottom: '40px', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>Area Latihan</h1>
+          <p style={{ opacity: 0.8, fontSize: '0.95rem' }}>Pilih mode latihan yang ingin Anda fokuskan hari ini.</p>
+        </div>
 
-  const handleStop = () => {
-    setIsRecording(false);
-    stopCamera();
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-    }
-  };
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div onClick={() => setMode('teleprompter')} className="card" style={{ padding: '24px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px', borderRadius: '16px', border: '2px solid transparent', transition: 'all 0.3s', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+            <div style={{ width: '60px', height: '60px', borderRadius: '12px', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Video size={30} />
+            </div>
+            <div>
+              <h3 style={{ margin: '0 0 8px 0', fontSize: '1.1rem', color: '#1e293b' }}>Latihan Teleprompter</h3>
+              <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b', lineHeight: '1.5' }}>Gunakan layar HP sebagai cermin. Latih tempo bicara Anda, gestur tangan, postur, dan ekspresi wajah.</p>
+            </div>
+          </div>
+
+          <div onClick={() => setMode('filler')} className="card" style={{ padding: '24px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px', borderRadius: '16px', border: '2px solid transparent', transition: 'all 0.3s', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+            <div style={{ width: '60px', height: '60px', borderRadius: '12px', background: '#fef2f2', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Mic2 size={30} />
+            </div>
+            <div>
+              <h3 style={{ margin: '0 0 8px 0', fontSize: '1.1rem', color: '#1e293b' }}>Latihan Filler Words</h3>
+              <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b', lineHeight: '1.5' }}>Hilangkan kebiasaan bergumam ('eee', 'umm'). Baca naskah dan biarkan AI menghitung skor filler Anda secara *real-time*.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="page-container animate-fade-in" style={{ display: 'flex', flexDirection: 'column', height: '100%', paddingTop: '40px' }}>
-      <div style={{ color: 'white', marginBottom: '30px' }}>
-        <h2 style={{ fontSize: '1.5rem', margin: 0 }}>Area Latihan</h2>
-        <p style={{ opacity: 0.8, fontSize: '0.85rem', marginBottom: '12px' }}>Teleprompter & AI Assistant</p>
-        <p style={{ fontSize: '0.8rem', lineHeight: '1.5', background: 'rgba(255,255,255,0.1)', padding: '12px', borderRadius: '8px' }}>
-          <strong>Cara Kerja:</strong> Ketik atau pilih naskah acak, lalu klik Mulai. Kamera akan menyala dan naskah berjalan otomatis. AI akan mendengarkan suara Anda dan menghitung jika Anda memakai kata pengisi (filler) seperti "eee" atau "umm".
+    <div className="page-container animate-fade-in" style={{ paddingTop: '30px', paddingBottom: '100px', display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+      
+      {/* Header with Back Button */}
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', color: 'white', zIndex: 10 }}>
+        <button onClick={() => {
+          if (isRecording) toggleRecording();
+          setMode('menu');
+        }} style={{ padding: '8px', marginRight: '16px', background: 'rgba(255,255,255,0.2)', borderRadius: '50%', backdropFilter: 'blur(5px)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ChevronLeft size={24} color="white" />
+        </button>
+        <div style={{ flex: 1 }}>
+          <h2 style={{ fontSize: '1.2rem', margin: 0 }}>{mode === 'filler' ? 'Latihan Filler' : 'Latihan Teleprompter'}</h2>
+        </div>
+      </div>
+
+      {/* Instructions Box */}
+      <div style={{ background: 'rgba(255,255,255,0.95)', padding: '16px', borderRadius: '12px', marginBottom: '20px', zIndex: 10, boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+        <h4 style={{ color: mode === 'filler' ? '#ef4444' : '#3b82f6', margin: '0 0 8px 0', fontSize: '0.95rem' }}>Tujuan Latihan:</h4>
+        <p style={{ margin: 0, fontSize: '0.85rem', color: '#475569', lineHeight: '1.5' }}>
+          {mode === 'filler' 
+            ? "Latihan ini bertujuan menghilangkan kebiasaan mengucapkan kata pengisi ('eee', 'umm', 'anu'). Baca naskah panjang di bawah, dan AI akan merekam suara Anda. Silakan lihat angka merah yang muncul jika filler Anda banyak. Biasakan JEDA atau diam sejenak jika Anda bingung."
+            : "Latihan ini bertujuan agar Anda bisa membaca dengan tempo yang tepat (naskah ini didesain untuk ~5 menit membaca). Jangan terlalu cepat atau terlalu lambat. Gunakan layar ini sebagai cermin: Latih gerakan tangan Anda, berdirilah tegak, dan latih ekspresi wajah!"}
         </p>
       </div>
-      
-      {!isRecording ? (
-        <div className="card" style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-            <label style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>
-              Naskah Anda:
-            </label>
-            <button 
-              onClick={() => {
-                const random = randomSpeeches[Math.floor(Math.random() * randomSpeeches.length)];
-                setText(random);
-              }}
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#3b82f6', background: '#eff6ff', padding: '6px 12px', borderRadius: '99px', fontWeight: 600 }}
-            >
-              <Shuffle size={14} /> Teks Acak
-            </button>
-          </div>
-          <textarea 
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            style={{ 
-              width: '100%', 
-              flex: 1, 
-              background: '#f8fafc', 
-              border: '1px solid #e2e8f0',
-              borderRadius: '12px',
-              padding: '16px',
-              color: '#1e293b',
-              fontFamily: 'inherit',
-              resize: 'none',
-              marginBottom: '20px',
-              fontSize: '1rem',
-              lineHeight: '1.6'
-            }}
-          />
-          <div style={{ textAlign: 'center' }}>
-            <button className="btn-primary" onClick={handleStart} style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-              <Play size={18} /> Mulai Latihan
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', margin: '-10px', marginTop: '0' }}>
-          {/* Camera View */}
-          <div style={{ 
-            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, 
-            borderRadius: '20px', overflow: 'hidden', background: '#000', zIndex: 1 
-          }}>
-            <video 
-              ref={videoRef} 
-              autoPlay 
-              playsInline 
-              muted 
-              style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }} 
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }}></div>
-          </div>
 
-          {/* Teleprompter Text overlay */}
-          <div style={{ 
-            position: 'relative', zIndex: 2, padding: '24px', flex: 1, 
-            display: 'flex', flexDirection: 'column', justifyContent: 'center',
-            textAlign: 'center'
-          }}>
-            <p style={{ 
-              fontSize: '1.8rem', 
-              fontWeight: 600, 
-              color: 'white', 
-              textShadow: '0 2px 10px rgba(0,0,0,0.8)',
-              lineHeight: '1.4'
-            }}>
-              {text}
-            </p>
-          </div>
+      {/* Camera / Teleprompter Area */}
+      <div style={{ flex: 1, position: 'relative', borderRadius: '20px', overflow: 'hidden', background: '#000', boxShadow: '0 8px 30px rgba(0,0,0,0.2)' }}>
+        <video 
+          ref={videoRef}
+          autoPlay 
+          playsInline
+          muted
+          style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }}
+        />
+        
+        {/* Overlay Gradients */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '30%', background: 'linear-gradient(to bottom, rgba(0,0,0,0.8), transparent)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '70%', background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 50%, transparent 100%)', pointerEvents: 'none' }} />
 
-          {/* Controls overlay */}
-          <div style={{ position: 'relative', zIndex: 2, padding: '20px', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', boxShadow: '0 -10px 30px rgba(0,0,0,0.1)' }}>
-             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#ef4444' }}>
-                   <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444', animation: 'pulse 1.5s infinite' }}></div>
-                   <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Merekam</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#f59e0b', fontSize: '0.9rem', fontWeight: 600, background: '#fef3c7', padding: '6px 12px', borderRadius: '20px' }}>
-                  <Activity size={16} /> Filler: {fillerCount}x
-                </div>
-                <button onClick={handleStop} style={{ background: '#1e293b', color: 'white', padding: '10px 20px', borderRadius: '99px', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600 }}>
-                  <Square size={16} /> Stop
-                </button>
-             </div>
-             {transcript && (
-               <div style={{ marginTop: '16px', fontSize: '0.85rem', color: '#64748b', fontStyle: 'italic', maxHeight: '40px', overflow: 'hidden', textAlign: 'center' }}>
-                 "{transcript}"
-               </div>
-             )}
-          </div>
+        {/* Text Container */}
+        <div style={{ position: 'absolute', top: '15%', bottom: mode === 'filler' ? '120px' : '80px', left: '20px', right: '20px', overflowY: 'auto', paddingRight: '10px' }}>
+          <p style={{ color: 'white', fontSize: '1.35rem', lineHeight: '1.7', fontWeight: 600, textShadow: '0 2px 4px rgba(0,0,0,0.8)', whiteSpace: 'pre-wrap', margin: 0, paddingBottom: '40px' }}>
+            {currentText}
+          </p>
         </div>
-      )}
+
+        {/* Controls Overlay */}
+        <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          
+          {mode === 'filler' && (
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button 
+                onClick={toggleRecording}
+                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '14px', borderRadius: '16px', border: 'none', background: isRecording ? '#ef4444' : '#22c55e', color: 'white', fontWeight: 600, fontSize: '1rem', boxShadow: '0 4px 15px rgba(0,0,0,0.3)', transition: 'all 0.3s' }}
+              >
+                {isRecording ? <Square fill="currentColor" size={20} /> : <Play fill="currentColor" size={20} />}
+                {isRecording ? "Stop" : "Mulai Rekam"}
+              </button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0 20px', background: 'rgba(255,255,255,0.95)', borderRadius: '16px', color: '#1e293b', fontWeight: 700, fontSize: '1.1rem', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+                <Activity size={20} color="#ef4444" />
+                <span style={{ color: fillerCount > 0 ? '#ef4444' : '#1e293b' }}>Filler: {fillerCount}x</span>
+              </div>
+            </div>
+          )}
+          
+          {mode === 'filler' && transcript && (
+            <div style={{ background: 'rgba(0,0,0,0.6)', padding: '10px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.2)' }}>
+              <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.85rem', fontStyle: 'italic', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                "{transcript}"
+              </p>
+            </div>
+          )}
+
+          <button 
+            onClick={randomizeText}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '14px', borderRadius: '16px', border: 'none', background: 'rgba(255,255,255,0.2)', color: 'white', backdropFilter: 'blur(10px)', fontWeight: 600, fontSize: '1rem' }}
+          >
+            <Shuffle size={20} />
+            Ganti Naskah (Acak)
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
