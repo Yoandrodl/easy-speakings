@@ -23,5 +23,5 @@ We may update our Privacy Policy from time to time. We will notify you of any ch
 
 ## 6. Contact Us
 If you have questions or comments about this policy, you may contact us at:
-- **Email:** [INSERT_YOUR_EMAIL_HERE]
+- **Email:** yoandrodl@gmail.com
 - **Instagram:** [@easy_speakings](https://www.instagram.com/easy_speakings)
